@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>أرشيف أعمالي الجامعية</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"></script>
 <style>
 :root{--bg:#f7f6f2;--card:#fff;--tx:#1d1d1b;--mut:#6b6a66;--ac:#1f6f5c;--on:#fff;--ac2:#e3f1ed;--bd:#e2e0d9;--dg:#b3382c;color-scheme:light}
 @media (prefers-color-scheme:dark){:root{--bg:#161715;--card:#202220;--tx:#eeede8;--mut:#9c9a93;--ac:#5cc4a8;--on:#111;--ac2:#1f3a33;--bd:#33362f;--dg:#ff8a7d;color-scheme:dark}}
@@ -33,7 +33,8 @@ input[type=text],input[type=email],select{width:100%;padding:10px;border:1px sol
 <main>
 <h1>📚 أرشيف أعمالي الجامعية</h1>
 
-<div id="login" class="card" hidden>
+<div id="err" class="meta" style="color:#c0392b;margin-bottom:8px"></div>
+<div id="login" class="card">
   <p>أدخل بريدك وسيصلك رابط دخول.</p>
   <input type="email" id="email" placeholder="البريد الإلكتروني">
   <button class="btn" id="send">إرسال رابط الدخول</button>
@@ -60,6 +61,8 @@ input[type=text],input[type=email],select{width:100%;padding:10px;border:1px sol
 <script>
 const SUPABASE_URL="https://jtlnqxwicxsvnqadqbpl.supabase.co";
 const SUPABASE_ANON_KEY="sb_publishable_VsnqA4oVHQw197uGVfe07g_ZC92kiMu";
+window.addEventListener("error",e=>{document.getElementById("err").textContent="خطأ: "+e.message});
+if(typeof supabase==="undefined"){document.getElementById("err").textContent="تعذّر تحميل مكتبة Supabase، جرّب شبكة أخرى أو حدّث الصفحة."}
 const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const CATS=["الكل","أبحاث","مشاريع","عروض تقديمية","تكليفات"];
 let works=[],cat="الكل";
