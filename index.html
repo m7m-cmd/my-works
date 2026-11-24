@@ -35,9 +35,10 @@ input[type=text],input[type=email],select{width:100%;padding:10px;border:1px sol
 
 <div id="err" class="meta" style="color:#c0392b;margin-bottom:8px"></div>
 <div id="login" class="card">
-  <p>أدخل بريدك وسيصلك رابط دخول.</p>
-  <input type="email" id="email" placeholder="البريد الإلكتروني">
-  <button class="btn" id="send">إرسال رابط الدخول</button>
+  <p>سجّل الدخول ببريدك وكلمة السر.</p>
+  <input type="email" id="email" placeholder="البريد الإلكتروني" autocomplete="username">
+  <input type="password" id="pw" placeholder="كلمة السر" autocomplete="current-password" style="width:100%;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);margin-bottom:8px">
+  <button class="btn" id="send">دخول</button>
   <div class="meta" id="lmsg"></div>
 </div>
 
@@ -122,9 +123,10 @@ $("go").onclick=async()=>{
   $("go").disabled=false;
 };
 $("send").onclick=async()=>{
-  const email=$("email").value.trim();if(!email)return;
-  const {error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.href.split("#")[0]}});
-  $("lmsg").textContent=error?"تعذّر الإرسال: "+error.message:"تم الإرسال، افتح بريدك واضغط الرابط.";
+  const email=$("email").value.trim(),password=$("pw").value;if(!email||!password)return;
+  $("lmsg").textContent="جاري الدخول…";
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  $("lmsg").textContent=error?"تعذّر الدخول: "+error.message:"";
 };
 $("logout").onclick=()=>sb.auth.signOut();
 
